@@ -21,9 +21,9 @@ var db = new SQLiteLink().init(databaseName,version,description,size)
 db.createTable(args, callback)
 ```
 + **args (array or object)**: An object or array of objects with this format:
-```javascript
+ ```javascript
 {
-    name: tableName,
+name: tableName,
     columns: [{
         name: columnName,
         type: columnType,
@@ -31,7 +31,7 @@ db.createTable(args, callback)
         allow_null: ifAllowNull
     }]
 }
-```
+ ```
  + **tableName (string)***: Table name
  + **columns (array)***: Table columns
    + **columnName (string)***: Column name
@@ -102,7 +102,7 @@ db.insert(table_name, fields, condition, callback)
 ```
 + **table_name (string)***: Table where the data will be updated
 + **fields (object)***: An object of columns with your respective values to update, with this format:
-+ ```javascript
+```javascript
 {
     column_name: value,
     column_name2: value,
