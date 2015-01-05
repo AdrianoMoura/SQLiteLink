@@ -180,7 +180,7 @@ db.find(table_name, condition, sort, callback)
 ####example
 ```javascript
 // Get registers who name start with 'Adr' order by id
-db.find('user', [['name','LIKE','Adr%']], ['id'], function(data)
+db.find('user', [['name','LIKE','Adr%']], [['id']], function(data)
 {
     console.log(data);
 })
@@ -204,7 +204,7 @@ db.findAll(table_name, sort, callback)
 ####example
 ```javascript
 // Get all registers order by id
-db.find('user', ['id'], function(data)
+db.find('user', [['id']], function(data)
 {
     console.log(data);
 })
