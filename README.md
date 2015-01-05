@@ -21,7 +21,7 @@ var db = new SQLiteLink().init(databaseName,version,description,size)
 db.createTable(args, callback)
 ```
 + **args (array or object)**: An object or array of objects with this format:
- ```javascript
+```javascript
 {
 name: tableName,
     columns: [{
