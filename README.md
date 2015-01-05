@@ -204,7 +204,7 @@ db.findAll(table_name, sort, callback)
 ####example
 ```javascript
 // Get all registers order by id
-db.find('user', [['id']], function(data)
+db.findAll('user', [['id']], function(data)
 {
     console.log(data);
 })
