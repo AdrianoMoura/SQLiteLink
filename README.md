@@ -112,7 +112,7 @@ db.insert(table_name, fields, condition, callback)
  + **column_name (string)**: Column name
  + **value**: Value will be set in selected column
 + **condition (array)**: Condition to limit items to update with this format
-+ ```javascript
+```javascript
 //id equals 1
 [['id','=',1]]
 //Name start with 'A'
