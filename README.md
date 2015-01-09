@@ -246,3 +246,57 @@ db.query('SELECT * FROM user WHERE id > ?',[10], function(data)
     console.log(data)
 });
 ```
+---
+##procedure
+In SQLiteLink instance is possible to create predefined procedures (still is not a complete procedure system, is only a query predefined to be called when you need in future)
+```javascript
+// On object instance
+var db = new SQLiteLink().init({
+    name: databaseName,
+    version: version,
+    description: description,
+    size: size,
+    procedure: [{
+            name: procedure_name,
+            query: query,
+            parameters: parameters
+        }
+    ]
+})
+```
+Adding the procedure property at instantiation of SQLiteLink class is possible to register Query's to be called in the future
++ **procedure (array)**: Array with procedures
+ + **procedure_name (string)***: Procedure name
+ + **query (string)***: Query's model
+ + **parameters (string)**: Defined parameters will replace ? in query when you call (need to be defined in order)
+
+To call your procedure:
+```javascript
+// On object instance
+db.procedure(procedure_name, parameters, callback)
+```
++ **procedure_name (string)***: Procedure name
++ **parameters (object)***: Object with parameters value
++ **callback (function)***: Return result when query is succesfully
+
+####example
+```javascript
+// Instanciate SQLiteLink object with procedures
+db = new SQLiteLink().init({
+    name:'database_name',
+    procedure: [
+        {
+            name: 'user_procedure',
+            query: 'SELECT * FROM user WHERE id = ?',
+            parameters: ['id']
+        }
+    ]
+});
+
+//Call procedure
+db.procedure('user_procedure',{id: 1}, function(data)
+{
+    console.log(data)
+});
+
+```

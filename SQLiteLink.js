@@ -30,6 +30,9 @@ var SQLiteLink = function ()
             {
                 $this.delete('procedure', [], function ()
                 {
+                    if (args.procedure[item].parameters === undefined)
+                        args.procedure[item].parameters = []
+                    
                     for (var item in args.procedure)
                     {
                         $this.insert('procedure', {
