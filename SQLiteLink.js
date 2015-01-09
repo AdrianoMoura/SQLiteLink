@@ -2,9 +2,45 @@ var SQLiteLink = function ()
 {
     var _db = {};
 
-    this.init = function (name, version, description, size)
+    this.init = function (args)
     {
-        open(name, version, description, size);
+        open(args.name, args.version, args.description, args.size);
+
+        $this = this;
+
+        if (args.procedure !== undefined)
+        {
+            $this.createTable({
+                name: 'procedure',
+                columns: [{
+                        name: 'id',
+                        type: 'INTEGER',
+                        primary_key: true
+                    }, {
+                        name: 'name',
+                        type: 'TEXT'
+                    }, {
+                        name: 'query',
+                        type: 'TEXT'
+                    }, {
+                        name: 'parameters',
+                        type: 'TEXT'
+                    }]
+            }, function ()
+            {
+                $this.delete('procedure', [], function ()
+                {
+                    for (var item in args.procedure)
+                    {
+                        $this.insert('procedure', {
+                            name: args.procedure[item].name,
+                            query: args.procedure[item].query,
+                            parameters: JSON.stringify(args.procedure[item].parameters)
+                        });
+                    }
+                });
+            });
+        }
 
         return this;
     };
@@ -326,7 +362,7 @@ var SQLiteLink = function ()
         _db.transaction(function (tx)
         {
             var str = 'SELECT * FROM ' + table;
-            
+
             if (order.length > 0)
             {
                 str += ' ORDER BY ';
@@ -357,7 +393,7 @@ var SQLiteLink = function ()
                     data.push(rx.rows.item(i));
                 }
 
-                callback(str, data);
+                callback(data, str);
             }, onError);
         });
     };
@@ -384,6 +420,30 @@ var SQLiteLink = function ()
 
                 callback(data, sql);
             }, onError);
+        });
+    };
+
+    this.procedure = function (name, data, callback)
+    {
+        $this = this;
+        
+        if (name === undefined)
+            throw new Error('Name is not defined');
+        if (data === undefined)
+            data = {};
+        
+        this.find('procedure',[['name','=',name]],[],function(result)
+        {
+            var _data = [];
+            
+            var parameter = JSON.parse(result[0].parameters);
+            
+            for (var item in parameter)
+            {
+                _data.push(data[parameter[item]] === undefined ? '' : data[parameter[item]] );
+            }
+            
+            $this.query(result[0].query,_data, callback);
         });
     };
 

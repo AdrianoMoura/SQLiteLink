@@ -6,7 +6,12 @@ A JavaScript class to manage the basic functions in HTML5 SQLite
 # Get started
 ```javascript
 // Instance of a new SQLiteLink object
-var db = new SQLiteLink().init(databaseName,version,description,size)
+var db = new SQLiteLink().init({
+    name: databaseName,
+    version: version,
+    description: description,
+    size: size
+})
 ```
 + **databaseName (string)***: Name of your SQLite database
 + **version (string)**: Version of your SQLite database, you can use any format
@@ -27,7 +32,7 @@ name: tableName,
     columns: [{
         name: columnName,
         type: columnType,
-        primary_key: isPrimaryKey
+        primary_key: isPrimaryKey,
         allow_null: ifAllowNull
     }]
 }
@@ -44,7 +49,7 @@ name: tableName,
 ```javascript
 // Create a table (user) with 2 columns (id, name)
 db.createTable({
-    name: 'User',
+    name: 'user',
     columns: [{
         name: 'id',
         type: 'INTEGER',
